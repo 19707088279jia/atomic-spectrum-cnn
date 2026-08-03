@@ -1,0 +1,41 @@
+project:
+  run_name: resnet18
+  seed: 42
+
+data:
+  root: data/synthetic
+  classes: [Fe, Cu, Na, Ca, Mg]
+  image_size: 224
+  num_workers: 0
+
+synthetic:
+  samples_per_class:
+    train: 100
+    validation: 25
+    test: 25
+  wavelength_min: 200.0
+  wavelength_max: 800.0
+  points: 2000
+  image_dpi: 90
+
+model:
+  name: resnet18
+  pretrained: false
+  dropout: 0.2
+
+training:
+  epochs: 20
+  batch_size: 32
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  early_stopping_patience: 5
+  device: auto
+
+augmentation:
+  rotation_degrees: 1.0
+  vertical_shift: 0.03
+  brightness: 0.06
+  contrast: 0.06
+
+output:
+  root: outputs/resnet18

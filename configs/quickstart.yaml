@@ -1,0 +1,41 @@
+project:
+  run_name: quickstart
+  seed: 42
+
+data:
+  root: data/synthetic
+  classes: [Fe, Cu, Na, Ca, Mg]
+  image_size: 224
+  num_workers: 0
+
+synthetic:
+  samples_per_class:
+    train: 40
+    validation: 10
+    test: 10
+  wavelength_min: 200.0
+  wavelength_max: 800.0
+  points: 1600
+  image_dpi: 80
+
+model:
+  name: simple_cnn
+  pretrained: false
+  dropout: 0.25
+
+training:
+  epochs: 5
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping_patience: 2
+  device: auto
+
+augmentation:
+  rotation_degrees: 1.5
+  vertical_shift: 0.04
+  brightness: 0.08
+  contrast: 0.08
+
+output:
+  root: outputs/quickstart

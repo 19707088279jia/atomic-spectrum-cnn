@@ -1,0 +1,41 @@
+project:
+  run_name: smoke_test
+  seed: 7
+
+data:
+  root: data/synthetic
+  classes: [Fe, Cu, Na, Ca, Mg]
+  image_size: 96
+  num_workers: 0
+
+synthetic:
+  samples_per_class:
+    train: 4
+    validation: 2
+    test: 2
+  wavelength_min: 200.0
+  wavelength_max: 800.0
+  points: 400
+  image_dpi: 60
+
+model:
+  name: simple_cnn
+  pretrained: false
+  dropout: 0.1
+
+training:
+  epochs: 1
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0
+  early_stopping_patience: 1
+  device: cpu
+
+augmentation:
+  rotation_degrees: 0.0
+  vertical_shift: 0.0
+  brightness: 0.0
+  contrast: 0.0
+
+output:
+  root: outputs/smoke_test

@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.DS_Store
+.vscode/
+.env
+
+# Generated datasets and outputs
+data/synthetic/
+data/real/
+outputs/
+*.pt
+*.pth
+*.onnx
+
+# Keep placeholders
+!data/.gitkeep
+!outputs/.gitkeep

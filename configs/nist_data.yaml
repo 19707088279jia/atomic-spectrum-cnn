@@ -1,0 +1,34 @@
+project:
+  run_name: nist_import
+  seed: 7
+
+data:
+  root: data/nist_images
+  classes: [Fe, Cu, Na, Ca, Mg]
+  image_size: 224
+  num_workers: 0
+
+nist:
+  input_dir: data/nist_raw
+  output_dir: data/nist_images
+  copies_per_source: 20
+  wavelength_min: 200.0
+  wavelength_max: 600.0
+  grid_points: 1200
+  dpi: 120
+
+model:
+  name: simple_cnn
+  pretrained: false
+  dropout: 0.25
+
+training:
+  epochs: 1
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  early_stopping_patience: 1
+  device: auto
+
+output:
+  root: outputs/nist_import
