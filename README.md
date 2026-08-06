@@ -1,64 +1,68 @@
 # Atomic Spectrum CNN — GitHub Copilot Ready
 
-一个可直接上传到 GitHub、交给 GitHub Copilot 继续开发的原子光谱图像分类项目。
+A ready-to-run atomic spectrum image classification project that can be uploaded directly to GitHub and further developed using GitHub Copilot.
 
-本仓库已经包含：
+This repository includes:
 
-- 可运行的小型 CNN；
-- 可选的 ResNet18 迁移学习模型；
-- Fe、Cu、Na、Ca、Mg 五分类框架；
-- 模拟光谱图片生成器；
-- 训练、验证、测试和单图预测脚本；
-- Streamlit 上传图片演示界面；
-- GitHub Copilot 仓库指令；
-- Copilot 专用 Spectrum AI Engineer agent；
-- GitHub Actions 测试；
-- Codespaces 开发环境；
-- Google Colab 启动 notebook。
+* A lightweight and runnable CNN model
+* An optional ResNet18 transfer-learning model
+* A five-class classification framework for Fe, Cu, Na, Ca, and Mg
+* A synthetic spectrum image generator
+* Training, validation, testing, and single-image prediction scripts
+* A Streamlit interface for uploading and classifying images
+* Repository-level instructions for GitHub Copilot
+* A dedicated Spectrum AI Engineer agent for Copilot
+* GitHub Actions tests
+* A GitHub Codespaces development environment
+* A Google Colab starter notebook
 
-> 重要：模拟数据仅用于证明程序流程能够运行，不能作为最终科学结论。正式研究必须换成经过确认的真实原子光谱图。
+> **Important:** The synthetic data is provided only to demonstrate that the complete program workflow functions correctly. It must not be used to support scientific conclusions. Formal research must use verified, real atomic spectrum images.
 
-## 1. 最快启动
+## 1. Quick Start
 
-要求 Python 3.11。
+Python 3.11 is required.
+
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Windows PowerShell：
+### Windows PowerShell
 
 ```powershell
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-macOS/Linux：
+### macOS/Linux
 
 ```bash
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-生成模拟数据：
+Generate synthetic data:
 
 ```bash
 python scripts/generate_synthetic_data.py --config configs/quickstart.yaml
 ```
 
-训练第一版 CNN：
+Train the first CNN model:
 
 ```bash
 python scripts/train.py --config configs/quickstart.yaml
 ```
 
-测试模型：
+Evaluate the model:
 
 ```bash
-python scripts/evaluate.py --config configs/quickstart.yaml --checkpoint outputs/quickstart/best_model.pt
+python scripts/evaluate.py \
+  --config configs/quickstart.yaml \
+  --checkpoint outputs/quickstart/best_model.pt
 ```
 
-预测单张图片：
+Predict a single image:
 
 ```bash
 python scripts/predict.py \
@@ -67,32 +71,41 @@ python scripts/predict.py \
   --image data/synthetic/test/Fe/Fe_0000.png
 ```
 
-启动网页：
+Launch the web application:
 
 ```bash
 streamlit run app/streamlit_app.py
 ```
 
-## 2. 使用 ResNet18
+## 2. Using ResNet18
 
-先生成数据，然后运行：
+First generate the dataset, and then run:
 
 ```bash
 python scripts/train.py --config configs/resnet18.yaml
 ```
 
-`configs/resnet18.yaml` 默认关闭预训练权重下载，保证离线环境也能运行。连接互联网后，可将：
+The `configs/resnet18.yaml` file disables pretrained-weight downloads by default so that the project can run in an offline environment.
+
+When an internet connection is available, change:
+
+```yaml
+model:
+  pretrained: false
+```
+
+to:
 
 ```yaml
 model:
   pretrained: true
 ```
 
-改为 `true` 使用 ImageNet 预训练权重。
+This enables the use of ImageNet pretrained weights.
 
-## 3. 使用真实数据
+## 3. Using Real Data
 
-真实图片应采用 ImageFolder 目录格式：
+Real spectrum images should follow the PyTorch `ImageFolder` directory structure:
 
 ```text
 data/real/
@@ -116,21 +129,35 @@ data/real/
     └── Mg/
 ```
 
-复制 `configs/real_data.yaml.example` 为 `configs/real_data.yaml`，修改路径后训练：
+Copy:
+
+```text
+configs/real_data.yaml.example
+```
+
+to:
+
+```text
+configs/real_data.yaml
+```
+
+Update the dataset paths, and then start training:
 
 ```bash
 python scripts/train.py --config configs/real_data.yaml
 ```
 
-## 4. 在 GitHub Copilot 中使用
+## 4. Using GitHub Copilot
 
-上传仓库后，Copilot 会自动读取：
+After the repository has been uploaded to GitHub, Copilot will automatically read the following files:
 
-- `.github/copilot-instructions.md`
-- `AGENTS.md`
-- `.github/agents/spectrum-ai-engineer.agent.md`
+```text
+.github/copilot-instructions.md
+AGENTS.md
+.github/agents/spectrum-ai-engineer.agent.md
+```
 
-打开 GitHub Copilot Agent，选择本仓库，然后粘贴：
+Open GitHub Copilot Agent, select this repository, and enter:
 
 ```text
 Read COPILOT_START_HERE.md and complete the next unfinished milestone.
@@ -138,9 +165,15 @@ Run the tests before and after editing. Do not claim success unless the
 commands actually pass. Preserve the scientific meaning of wavelength position.
 ```
 
-也可以把 `.github/prompts/build-spectrum-ai.prompt.md` 的内容直接作为任务发送给 Copilot。
+You can also copy the contents of:
 
-## 5. 项目结构
+```text
+.github/prompts/build-spectrum-ai.prompt.md
+```
+
+and send them directly to Copilot as a development task.
+
+## 5. Project Structure
 
 ```text
 atomic-spectrum-cnn-copilot/
@@ -161,31 +194,40 @@ atomic-spectrum-cnn-copilot/
 └── README.md
 ```
 
-## 6. 科学限制
+## 6. Scientific Limitations
 
-第一版任务是单标签分类：一张图片只对应一种元素。不要把它直接解释成混合样品的元素定性分析。
+The first version of this project performs **single-label classification**: each image is assumed to represent only one element.
 
-正式研究时必须避免模型根据以下非科学信息分类：
+The model must not be directly interpreted as a system for qualitative elemental analysis of mixed samples.
 
-- 标题或图例中的元素名称；
-- 文件名；
-- 仪器界面；
-- 特定背景颜色；
-- 不同类别固定使用不同图片尺寸；
-- 不同类别固定来自不同仪器。
+For formal research, care must be taken to prevent the model from learning non-scientific information, including:
 
-水平位置代表波长，禁止使用水平翻转作为数据增强。
+* Element names displayed in image titles or legends
+* File names
+* Instrument software interfaces
+* Class-specific background colours
+* Image dimensions that are fixed for particular classes
+* Images from different instruments being assigned to different classes
 
-## 7. 运行检查
+The horizontal position in a spectrum represents wavelength. Therefore, horizontal flipping must not be used as a data augmentation method.
+
+## 7. Code Quality Checks
+
+Run the tests:
 
 ```bash
 pytest -q
+```
+
+Run the linter:
+
+```bash
 ruff check .
 ```
 
-## 8. 输出
+## 8. Outputs
 
-训练结果保存在：
+Training outputs are saved in:
 
 ```text
 outputs/<run_name>/
@@ -197,6 +239,4 @@ outputs/<run_name>/
 └── metrics.json
 ```
 
-## License
-
-MIT
+The output files include the best model checkpoint, class-name mapping, training history, training curves, confusion matrix, and evaluation metrics.
