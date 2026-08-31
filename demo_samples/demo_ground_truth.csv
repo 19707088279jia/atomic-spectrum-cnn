@@ -1,0 +1,5 @@
+sample_name,source_target_id,Zn,Mn,Cd,Mg,Cu,Pb,original_concentrations,label_availability
+Simple,barite,UNKNOWN,UNKNOWN,UNKNOWN,0.13,UNKNOWN,UNKNOWN,"Mg=0.13","Mg known; Zn, Mn, Cd, Cu, Pb missing"
+Mixed,mix801,558.0,2055.0,0.32,5.44,554.0,483.1,"Zn=558.0; Mn=2055.0; Cd=0.32; Mg=5.44; Cu=554.0; Pb=483.1","All six labels known positive at frozen Z-903 label thresholds"
+Clear,mix349,25.0,1307.0,0.06,6.6,32.0,2.1,"Zn=25.0; Mn=1307.0; Cd=0.06; Mg=6.6; Cu=32.0; Pb=2.1","All six labels known; Zn and Pb are known negative at frozen thresholds; Mn, Cd, Mg, and Cu are known positive"
+Challenging / Near-threshold,agv1a,88.0,710.0,0.07,1.49,60.0,36.0,"Zn=88.0; Mn=710.0; Cd=0.07; Mg=1.49; Cu=60.0; Pb=36.0","All six labels known; Zn and Mg are known negative at frozen thresholds; Mn, Cd, Cu, and Pb are known positive"

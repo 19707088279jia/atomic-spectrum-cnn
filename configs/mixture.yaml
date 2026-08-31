@@ -1,0 +1,13 @@
+mixture:
+  elements:
+    - Zn
+    - Mn
+    - Cd
+    - Mg
+    - Cu
+    - Pb
+  wavelength_min: 200
+  wavelength_max: 600
+  image_size: 224
+  seed: 42
+  default_threshold: 0.5

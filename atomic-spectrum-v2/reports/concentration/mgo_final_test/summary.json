@@ -1,0 +1,143 @@
+{
+  "frozen_config": {
+    "model": "Ridge",
+    "alpha": 100.0,
+    "bin_size": 25,
+    "n_features": 936,
+    "expected_points": 23401,
+    "wavelength_range_nm": [
+      180.0,
+      960.0
+    ]
+  },
+  "n_train": 1797,
+  "test": {
+    "metrics": {
+      "n": 386,
+      "mae": 1.6988875886067103,
+      "rmse": 2.4681298465517485,
+      "median_absolute_error": 1.212972902773895,
+      "r2": 0.8957160878048006,
+      "pearson": 0.9466581263356,
+      "spearman": 0.9188409017315246,
+      "bias": 0.150056402356261
+    },
+    "bands": {
+      "bottom_50": {
+        "n": 193,
+        "mae": 1.517239022761799,
+        "rmse": 2.156825494792425,
+        "median_absolute_error": 1.1806992798518545,
+        "r2": -2.2103822989270165,
+        "pearson": 0.6508991337744107,
+        "spearman": 0.6632687944049486,
+        "bias": 0.6944222364233479
+      },
+      "p50_p90": {
+        "n": 154,
+        "mae": 1.2923620548461228,
+        "rmse": 1.6512368315178585,
+        "median_absolute_error": 1.055526110597862,
+        "r2": 0.7115140036815014,
+        "pearson": 0.8504537112572251,
+        "spearman": 0.860330110885073,
+        "bias": 0.09482002320681952
+      },
+      "top_10": {
+        "n": 39,
+        "mae": 4.203069778534874,
+        "rmse": 5.148245665277869,
+        "median_absolute_error": 3.358490655174812,
+        "r2": 0.4089732584787399,
+        "pearson": 0.8759515800579565,
+        "spearman": 0.822838648167671,
+        "bias": -2.325743689590759
+      },
+      "top_5": {
+        "n": 20,
+        "mae": 5.680675138177069,
+        "rmse": 6.576487092203839,
+        "median_absolute_error": 6.6293225554571436,
+        "r2": -0.535200611810313,
+        "pearson": 0.9191287557019833,
+        "spearman": 0.8194133245161448,
+        "bias": -2.8985816115897585
+      }
+    }
+  },
+  "median_baseline_test": {
+    "n": 386,
+    "mae": 5.065207253886011,
+    "rmse": 7.949772392218717,
+    "median_absolute_error": 3.5549999999999997,
+    "r2": -0.08190890860632782,
+    "pearson": NaN,
+    "spearman": NaN,
+    "bias": -2.1873834196891195
+  },
+  "existing_cnn_test_declared_reference": {
+    "known": 386,
+    "mae": 2.8023,
+    "rmse": 5.4403,
+    "r2": 0.4933
+  },
+  "existing_cnn_test_recomputed": {
+    "metrics": {
+      "n": 386,
+      "mae": 2.802315613863956,
+      "rmse": 5.440273957097428,
+      "median_absolute_error": 1.0477414226531985,
+      "r2": 0.49333273306570624,
+      "pearson": 0.8789741977247796,
+      "spearman": 0.9450990473159131,
+      "bias": -2.690473354951855
+    },
+    "bands": {
+      "bottom_50": {
+        "n": 193,
+        "mae": 0.46073673534631693,
+        "rmse": 0.6360265545412174,
+        "median_absolute_error": 0.3183677387237549,
+        "r2": 0.7208245457501683,
+        "pearson": 0.8768178197104138,
+        "spearman": 0.8404146778105179,
+        "bias": -0.26050086335597533
+      },
+      "p50_p90": {
+        "n": 154,
+        "mae": 2.987568151981799,
+        "rmse": 3.5234961019787816,
+        "median_absolute_error": 2.715144958496094,
+        "r2": -0.3135711241055028,
+        "pearson": 0.7988078525808088,
+        "spearman": 0.7399734999035052,
+        "bias": -2.9581812127224807
+      },
+      "top_10": {
+        "n": 39,
+        "mae": 13.658619016011556,
+        "rmse": 15.553293078400209,
+        "median_absolute_error": 11.739586906433104,
+        "r2": -4.394277915894747,
+        "pearson": 0.04714852966430652,
+        "spearman": -0.09343996952002463,
+        "bias": -13.658619016011556
+      },
+      "top_5": {
+        "n": 20,
+        "mae": 18.980241254806522,
+        "rmse": 20.13089461017028,
+        "median_absolute_error": 17.952629718780518,
+        "r2": -13.384783872957163,
+        "pearson": 0.09960644213567188,
+        "spearman": -0.13092554496401212,
+        "bias": -18.980241254806522
+      }
+    }
+  },
+  "interpretation": "Strong experimental quantitative performance",
+  "ridge_mae_below_cnn_reference": true,
+  "top10_bias_reduced_vs_cnn": true,
+  "top5_bias_reduced_vs_cnn": true,
+  "model_path": "D:\\PROJECT\\atomic-spectrum-cnn-copilot\\atomic-spectrum-cnn-copilot\\atomic-spectrum-v2\\models\\mgo_ridge_final.joblib"
+}

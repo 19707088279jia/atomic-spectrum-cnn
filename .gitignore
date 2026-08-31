@@ -20,3 +20,21 @@ outputs/
 # Keep placeholders
 !data/.gitkeep
 !outputs/.gitkeep
+
+# Large NASA / generated spectral datasets
+data/raw/
+data/processed/
+data/mixture/
+data/reference_spectra/
+data/reference_plots/
+
+# Python packaging artifacts
+*.egg-info/
+
+# Additional model binaries
+*.joblib
+*.pkl
+
+# Temporary/generated caches
+*.npz
+*.npy

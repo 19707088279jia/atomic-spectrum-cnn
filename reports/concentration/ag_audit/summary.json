@@ -1,0 +1,71 @@
+{
+  "metadata_workbook": "data\\metadata\\libs_metadata.xlsx",
+  "metadata_sheet": "Metadata_COMPS_PDS_230124",
+  "ag_metadata_column": "Ag",
+  "ag_unit": "ppm",
+  "label_source": "Direct Ag composition/reference metadata field in libs_metadata.xlsx; not inferred from filenames, paths, plots, or model outputs.",
+  "measurement_provenance_assessment": "The workbook provides explicit Ag composition/reference values in ppm. This audit does not independently verify the laboratory measurement/reference method or uncertainty.",
+  "total_spectra": 2567,
+  "known_ag_labels": 328,
+  "missing_ag_labels": 2239,
+  "ag_zero_ppm": 64,
+  "ag_positive_ppm": 264,
+  "all_known_statistics": {
+    "count": 328,
+    "minimum": 0.0,
+    "maximum": 14.0,
+    "mean": 0.19118902439024388,
+    "median": 0.045,
+    "standard_deviation": 1.0424131558082446,
+    "percentile_25": 0.01,
+    "percentile_75": 0.0625,
+    "percentile_90": 0.4720000000000005,
+    "percentile_95": 0.5,
+    "percentile_99": 1.1
+  },
+  "positive_only_statistics": {
+    "count": 264,
+    "minimum": 0.01,
+    "maximum": 14.0,
+    "mean": 0.2375378787878788,
+    "median": 0.05,
+    "standard_deviation": 1.157583525423373,
+    "percentile_25": 0.02,
+    "percentile_75": 0.1,
+    "percentile_90": 0.5,
+    "percentile_95": 0.5,
+    "percentile_99": 1.91400000000001
+  },
+  "fixed_range_counts": {
+    "0 ppm": 64,
+    ">0-1 ppm": 255,
+    ">1-10 ppm": 7,
+    ">10-100 ppm": 2,
+    ">100-1000 ppm": 0,
+    ">1000 ppm": 0
+  },
+  "positive_quantile_range_counts": {
+    "0.01-0.02 ppm": 20,
+    "0.02-0.05 ppm": 80,
+    "0.05-0.1 ppm": 97,
+    "0.1-14 ppm": 67
+  },
+  "split_statistics": {
+    "train": {
+      "total_spectra": 1803,
+      "known_ag_labels": 232
+    },
+    "val": {
+      "total_spectra": 377,
+      "known_ag_labels": 46
+    },
+    "test": {
+      "total_spectra": 387,
+      "known_ag_labels": 50
+    }
+  },
+  "leakage_detected": false,
+  "severe_long_tail": true,
+  "recommended_strategy": "B. Two-stage model",
+  "recommendation_reason": "Known labels include both zero and positive Ag values, and the observed distribution is strongly right-skewed; separate presence and positive-concentration tasks should be validated without touching the frozen test set."
+}

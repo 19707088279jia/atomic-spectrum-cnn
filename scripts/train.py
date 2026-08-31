@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from atomic_spectrum_ai.config import load_config
-from atomic_spectrum_ai.training import train_from_config
+from atomic_spectrum_ai.config import load_config  # noqa: E402
+from atomic_spectrum_ai.training import train_from_config  # noqa: E402
 
 
 def main() -> None:

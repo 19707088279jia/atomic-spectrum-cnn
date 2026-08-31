@@ -77,6 +77,24 @@ Launch the web application:
 streamlit run app/streamlit_app.py
 ```
 
+The application has two independent identification modes. Select
+`Reference / Peak Matching (No AI)` to upload a CSV containing wavelength and
+intensity columns. Column-name variants such as `wl`/`nm` and
+`signal`/`counts` are recognized. The mode cleans non-finite rows, sorts the
+working spectrum, extracts SciPy peaks, and compares them with the cached NIST
+I/II tables under `data/nist_lines/processed`. It does not load a neural
+network or checkpoint. Extracted peaks and the explainable match table can be
+downloaded from the interface.
+
+Reference results use a configurable wavelength tolerance (0.25 nm by
+default), NIST strength plus the existing Z-903 empirical line audit for
+candidate selection, and a score based on weighted matched evidence. `DETECTED`
+requires at least two low-interference matches including one high-confidence
+line; weaker or interfered evidence is `POSSIBLE`, and insufficient evidence is
+`NOT DETECTED`. These labels are software matching results, not scientific
+detection limits. The existing `CNN Detection` mode remains available and can
+be compared separately from the reference result.
+
 ## 2. Using ResNet18
 
 First generate the dataset, and then run:

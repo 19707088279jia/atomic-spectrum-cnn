@@ -1,0 +1,86 @@
+{
+  "units": "ppm",
+  "expected_input_length": 23401,
+  "wavelength_range_nm": [
+    180.0,
+    960.0
+  ],
+  "preprocessing": "robust median/IQR scaling per spectrum",
+  "stage1_target_definition": "0 when Ag reference metadata is exactly 0 ppm; 1 when Ag reference metadata is > 0 ppm",
+  "stage1_threshold": 0.9660549759864807,
+  "stage1_winner": "logistic_regression",
+  "stage2_target_transformation": "log1p(Ag_ppm), train-positive samples only; train-only standardization for CNN",
+  "stage2_winner": "cnn_regression",
+  "supported_concentration_ranges": [
+    "0-0.1 ppm",
+    ">0.1-0.5 ppm"
+  ],
+  "high_concentration_warning": "Outside well-supported training range",
+  "validation_metrics": {
+    "stage1": {
+      "n": 46,
+      "threshold": 0.9660549759864807,
+      "true_negative": 10,
+      "false_positive": 0,
+      "false_negative": 4,
+      "true_positive": 32,
+      "accuracy": 0.9130434782608695,
+      "balanced_accuracy": 0.9444444444444444,
+      "precision": 1.0,
+      "recall_sensitivity": 0.8888888888888888,
+      "specificity": 1.0,
+      "f1": 0.9411764705882353,
+      "roc_auc": 0.9833333333333333,
+      "pr_auc": 0.9954809986672732,
+      "mcc": 0.7968190728895957
+    },
+    "stage2": {
+      "n": 36,
+      "mae": 0.4222515178559762,
+      "rmse": 2.31455676949969,
+      "median_absolute_error": 0.025357475653290745,
+      "r2": -0.02164102262555123,
+      "pearson": 0.0972356204088215,
+      "spearman": 0.6340959112991882,
+      "best_epoch": 20,
+      "bands": {
+        "0-0.1 ppm": {
+          "n": 28,
+          "mae": 0.032944487376537705,
+          "rmse": 0.04188253354933842,
+          "median_absolute_error": 0.021917444318532944,
+          "r2": -2.653695396772007,
+          "pearson": 0.49547257113900006,
+          "spearman": 0.4652281360649174
+        },
+        ">0.1-0.5 ppm": {
+          "n": 7,
+          "mae": 0.05637711976255689,
+          "rmse": 0.0797439910822991,
+          "median_absolute_error": 0.053466904163360585,
+          "r2": 0.7053743366367662,
+          "pearson": 0.8850982330435898,
+          "spearman": 0.8260009854911466
+        },
+        ">0.5-1 ppm": {
+          "n": 0,
+          "status": "Insufficient validation support"
+        },
+        ">1 ppm": {
+          "n": 1,
+          "status": "Insufficient validation support"
+        }
+      }
+    },
+    "pipeline": {
+      "n": 46,
+      "mae": 0.3321875097379898,
+      "rmse": 2.064658496534732,
+      "median_absolute_error": 0.02,
+      "r2": -0.029353582551137958,
+      "pearson": -0.04114908679227458,
+      "spearman": 0.6679008464578565
+    }
+  },
+  "test_set_status": "NOT USED FOR MODEL SELECTION OR PERFORMANCE EVALUATION"
+}

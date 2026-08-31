@@ -10,8 +10,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from atomic_spectrum_ai.config import load_config
-from atomic_spectrum_ai.nist_import import import_nist_dataset
+from atomic_spectrum_ai.config import load_config  # noqa: E402
+from atomic_spectrum_ai.nist_import import import_nist_dataset  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
