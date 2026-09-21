@@ -1,4 +1,4 @@
-"""Minimal Atomic Spectrum Identification V2 application."""
+"""LIBS Multi-Element Analysis Demo: integrates frozen MgO, Ag, and Cu models."""
 
 from __future__ import annotations
 
@@ -12,14 +12,30 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.data import DEMO_DIR, demo_labels, load_demo, load_spectrum  # noqa: E402
+from src.ag_inference import (  # noqa: E402
+    LOW_CONCENTRATION_NOTE,
+    ZERO_CLASS_NOTE,
+    classify_ag,
+    load_ag_classifier,
+    load_ag_concentration,
+    predict_ag_concentration,
+)
+from src.cu_inference import (  # noqa: E402
+    EXISTING_DETECTION_THRESHOLD_PPM,
+    HIGH_CONCENTRATION_NOTE,
+    SUPPORTED_RANGE_PPM,
+    load_cu_concentration,
+    predict_cu_concentration,
+)
+from src.data import DEMO_DIR, load_demo, load_spectrum  # noqa: E402
 from src.inference import load_checkpoint, predict  # noqa: E402
-from src.labels import TARGETS  # noqa: E402
-from src.mgo_ridge_inference import build_display, load_pipeline, predict_mgo  # noqa: E402
-from src.reference_matching import match  # noqa: E402
+from src.mgo_ridge_inference import load_pipeline, predict_mgo  # noqa: E402
 
-st.set_page_config(page_title="Atomic Spectrum Identification", layout="wide")
-st.title("Atomic Spectrum Identification")
+st.set_page_config(page_title="LIBS Multi-Element Analysis Demo", layout="wide")
+st.title("LIBS Multi-Element Analysis Demo")
+st.caption("Experimental MgO, Ag, and Cu identification and quantitative estimation")
+
+MODEL_ERRORS = (OSError, ValueError, RuntimeError, KeyError)
 
 
 def spectrum_plot(wavelengths, intensity) -> None:
@@ -32,86 +48,118 @@ def spectrum_plot(wavelengths, intensity) -> None:
     st.pyplot(figure, clear_figure=True)
 
 
+def load_six_element_detections(intensity) -> tuple[dict[str, dict[str, object]] | None, str | None]:
+    """Run the existing frozen six-element CNN once; both Mg and Cu detection reuse it."""
+    try:
+        model, _ = load_checkpoint()
+        return predict(intensity, model), None
+    except MODEL_ERRORS as exc:
+        return None, str(exc)
+
+
+def render_mg_section(intensity, detections, detection_error) -> None:
+    with st.container(border=True):
+        st.subheader("Mg / MgO")
+        if detections is not None:
+            result = detections["Mg"]["result"]
+            st.metric("Detection", "Detected" if result == "DETECTED" else "Not Detected")
+        else:
+            st.error(f"Mg detection unavailable: {detection_error}")
+        try:
+            pipeline = load_pipeline()
+            estimate = predict_mgo(intensity, pipeline)
+        except MODEL_ERRORS as exc:
+            st.error(f"MgO quantitative estimate unavailable: {exc}")
+        else:
+            st.metric("Experimental MgO quantitative estimate", f"{estimate:.2f} wt%")
+
+
+def render_ag_section(intensity) -> None:
+    with st.container(border=True):
+        st.subheader("Ag")
+        try:
+            classifier = load_ag_classifier()
+            classification = classify_ag(intensity, classifier)
+        except MODEL_ERRORS as exc:
+            st.error(f"Ag classification unavailable: {exc}")
+            return
+        positive = classification["positive"]
+        st.metric("Classification", "Positive" if positive else "Zero-class")
+        if not positive:
+            st.info(ZERO_CLASS_NOTE)
+            return
+        try:
+            model, checkpoint = load_ag_concentration()
+            estimate = predict_ag_concentration(intensity, model, checkpoint)
+        except MODEL_ERRORS as exc:
+            st.error(f"Ag quantitative estimate unavailable: {exc}")
+            return
+        st.metric("Experimental Ag estimate", f"{estimate:.3f} ppm")
+        st.caption(LOW_CONCENTRATION_NOTE)
+
+
+def render_cu_section(intensity, detections, detection_error) -> None:
+    with st.container(border=True):
+        st.subheader("Cu")
+        if detections is not None:
+            result = detections["Cu"]["result"]
+            st.metric("Detection", "Detected" if result == "DETECTED" else "Not Detected")
+        else:
+            st.error(f"Cu detection unavailable: {detection_error}")
+        try:
+            model, checkpoint = load_cu_concentration()
+            estimate = predict_cu_concentration(intensity, model, checkpoint)
+        except MODEL_ERRORS as exc:
+            st.error(f"Cu quantitative estimate unavailable: {exc}")
+            return
+        st.metric("Experimental Cu quantitative estimate", f"{estimate:.1f} ppm")
+        st.metric("Data-supported quantitative range", f"{SUPPORTED_RANGE_PPM[0]:.0f}\u2013{SUPPORTED_RANGE_PPM[1]:.0f} ppm")
+        st.caption(
+            f"The {EXISTING_DETECTION_THRESHOLD_PPM:.0f} ppm classification threshold is not a physical "
+            "detection limit and must not be used alone to decide whether a sample is out of range."
+        )
+        st.warning(HIGH_CONCENTRATION_NOTE)
+
+
 def main() -> None:
+    st.header("Spectrum Input")
     demo_metadata = pd.read_csv(DEMO_DIR / "demo_ground_truth.csv")
     demo_names = ["No demo sample", *demo_metadata["sample_name"].tolist()]
-    selected = st.selectbox("Built-in NASA demo sample", demo_names)
-    uploaded = st.file_uploader("Upload numerical CSV", type=["csv"])
+    selected = st.selectbox("Built-in demo sample", demo_names)
+    uploaded = st.file_uploader("Upload numerical LIBS CSV", type=["csv"])
     if selected == "No demo sample" and uploaded is None:
-        st.info("Select a built-in NASA demo or upload a CSV with wavelength,intensity columns.")
+        st.info("Select a built-in demo sample or upload a CSV with wavelength,intensity columns.")
         return
     try:
         if selected != "No demo sample":
-            wavelengths, intensity, truth_row = load_demo(selected)
+            wavelengths, intensity, _ = load_demo(selected)
         else:
             wavelengths, intensity = load_spectrum(uploaded)
-            truth_row = None
     except (OSError, ValueError, pd.errors.ParserError) as exc:
         st.error(str(exc))
         return
 
-    st.subheader("Spectrum")
+    st.header("Spectrum Plot")
     spectrum_plot(wavelengths, intensity)
 
-    model, _ = load_checkpoint()
-    cnn = predict(intensity, model)
-    st.subheader("CNN Detection")
-    st.dataframe(
-        pd.DataFrame(
-            [{"Element": element, **cnn[element]} for element in TARGETS]
-        ),
-        use_container_width=True,
-        hide_index=True,
+    detections, detection_error = load_six_element_detections(intensity)
+
+    st.header("Results")
+    mg_column, ag_column, cu_column = st.columns(3)
+    with mg_column:
+        render_mg_section(intensity, detections, detection_error)
+    with ag_column:
+        render_ag_section(intensity)
+    with cu_column:
+        render_cu_section(intensity, detections, detection_error)
+
+    st.header("Model Notes")
+    st.markdown(
+        "- MgO quantitative result is reported in wt%.\n"
+        "- Ag concentration estimation is experimental and mainly supported at low concentrations.\n"
+        "- Cu quantitative model was developed for a data-supported 1-500 ppm range.\n"
+        "- These models are research prototypes and are not certified analytical measurements."
     )
-
-    scores, _ = match(wavelengths, intensity)
-    st.subheader("Reference / Peak Matching")
-    st.dataframe(
-        scores.rename(columns={"element": "Element", "score": "Score", "result": "Result", "matched_peaks": "Matched Peaks"}),
-        use_container_width=True,
-        hide_index=True,
-    )
-
-    if truth_row is not None:
-        st.subheader("Demo composition ground truth")
-        st.dataframe(
-            pd.DataFrame({"Element": list(TARGETS), "Known Label": [demo_labels(truth_row)[element] for element in TARGETS]}),
-            use_container_width=True,
-            hide_index=True,
-        )
-
-    try:
-        ridge_pipeline = load_pipeline()
-        predicted_mgo = predict_mgo(intensity, ridge_pipeline)
-    except (OSError, ValueError) as exc:
-        st.error(str(exc))
-        return
-
-    st.subheader("MgO Quantitative Estimate")
-    if truth_row is not None:
-        ground_truth = pd.to_numeric(truth_row["Mg"], errors="coerce")
-        display = build_display(predicted_mgo, float(ground_truth) if pd.notna(ground_truth) else None)
-    else:
-        display = build_display(predicted_mgo)
-    st.write(f"**Predicted MgO:** {display['Predicted MgO']:.2f} wt%")
-    st.write(f"**Model:** {display['Model']}")
-    st.write(f"**Status:** {display['Status']}")
-    if "Ground Truth MgO" in display:
-        st.write(f"**Ground Truth MgO:** {display['Ground Truth MgO']:.2f} wt%")
-        st.write(f"**Absolute Error:** {display['Absolute Error']:.2f} wt%")
-
-    with st.expander("MgO Model Performance"):
-        st.write("Known test samples: 386")
-        st.write("MAE: 1.6989 wt%")
-        st.write("RMSE: 2.4681 wt%")
-        st.write("R²: 0.8957")
-        st.write("Pearson: 0.9467")
-        st.write("Spearman: 0.9188")
-        st.warning(
-            "This model provides an experimental quantitative estimate. Some high-MgO "
-            "samples, particularly around 20–35 wt%, remain systematically underestimated. "
-            "The prediction is not a certified laboratory measurement."
-        )
 
 
 if __name__ == "__main__":

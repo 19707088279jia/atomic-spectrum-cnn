@@ -67,7 +67,7 @@ def test_regression_checkpoint_and_units_are_not_detection_probabilities() -> No
     assert tuple(estimates) == TARGETS
     assert all(value >= 0.0 for value in estimates.values())
     app_text = (ROOT / "app" / "streamlit_app.py").read_text(encoding="utf-8")
-    assert "Predicted MgO" in app_text
+    assert "Experimental MgO quantitative estimate" in app_text
     assert "Probability" not in app_text
 
 
@@ -84,13 +84,7 @@ def test_frozen_mgo_ridge_pipeline_and_prediction_contract() -> None:
     assert pipeline["expected_points"] == 23401
 
 
-def test_mgo_ui_distinguishes_manual_and_demo_ground_truth() -> None:
-    app_text = (ROOT / "app" / "streamlit_app.py").read_text(encoding="utf-8")
-    assert "Ground Truth MgO" in app_text
-    assert "truth_row is not None" in app_text
-    assert "Predicted MgO" in app_text
-    assert "wt%" in app_text
-    assert "probability" not in app_text.lower().split("MgO Quantitative Estimate", 1)[-1]
+def test_mgo_display_distinguishes_manual_and_demo_ground_truth() -> None:
     manual = build_display(6.85)
     demo = build_display(6.85, 6.6)
     assert "Ground Truth MgO" not in manual

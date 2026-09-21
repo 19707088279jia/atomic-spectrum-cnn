@@ -1,0 +1,186 @@
+{
+  "metadata_workbook": "data\\metadata\\libs_metadata.xlsx",
+  "metadata_sheet": "Metadata_COMPS_PDS_230124",
+  "cu_metadata_column": "Cu",
+  "cu_unit": "ppm",
+  "existing_cu_detection_threshold_ppm": 25.0,
+  "threshold_modified": false,
+  "label_source": "Direct Cu composition metadata field in libs_metadata.xlsx; not inferred from filenames, paths, plots, or model outputs.",
+  "total_spectra": 2567,
+  "known_cu_labels": 733,
+  "missing_cu_labels": 1834,
+  "cu_zero_ppm": 17,
+  "cu_positive_ppm": 716,
+  "all_known_statistics": {
+    "count": 733,
+    "minimum": 0.0,
+    "maximum": 10000.0,
+    "mean": 161.04229195088678,
+    "median": 31.0,
+    "standard_deviation": 927.4682205453273,
+    "percentile_25": 6.0,
+    "percentile_75": 64.0,
+    "percentile_90": 101.80000000000007,
+    "percentile_95": 185.39999999999918,
+    "percentile_99": 4881.479999999998
+  },
+  "positive_only_statistics": {
+    "count": 716,
+    "minimum": 1.0,
+    "maximum": 10000.0,
+    "mean": 164.8659217877095,
+    "median": 31.5,
+    "standard_deviation": 938.0928928971715,
+    "percentile_25": 6.0,
+    "percentile_75": 65.0,
+    "percentile_90": 103.5,
+    "percentile_95": 211.5,
+    "percentile_99": 4887.6
+  },
+  "fixed_range_counts_all": {
+    "0 ppm": 17,
+    ">0-1 ppm": 26,
+    ">1-10 ppm": 199,
+    ">10-25 ppm": 101,
+    ">25-100 ppm": 314,
+    ">100-500 ppm": 54,
+    ">500-1000 ppm": 9,
+    ">1000-5000 ppm": 7,
+    ">5000 ppm": 6
+  },
+  "fixed_range_counts_train": {
+    "0 ppm": 11,
+    ">0-1 ppm": 16,
+    ">1-10 ppm": 138,
+    ">10-25 ppm": 78,
+    ">25-100 ppm": 214,
+    ">100-500 ppm": 41,
+    ">500-1000 ppm": 7,
+    ">1000-5000 ppm": 5,
+    ">5000 ppm": 6
+  },
+  "fixed_range_counts_val": {
+    "0 ppm": 3,
+    ">0-1 ppm": 3,
+    ">1-10 ppm": 32,
+    ">10-25 ppm": 10,
+    ">25-100 ppm": 46,
+    ">100-500 ppm": 8,
+    ">500-1000 ppm": 1,
+    ">1000-5000 ppm": 0,
+    ">5000 ppm": 0
+  },
+  "fixed_range_counts_test": {
+    "0 ppm": 3,
+    ">0-1 ppm": 7,
+    ">1-10 ppm": 29,
+    ">10-25 ppm": 13,
+    ">25-100 ppm": 54,
+    ">100-500 ppm": 5,
+    ">500-1000 ppm": 1,
+    ">1000-5000 ppm": 2,
+    ">5000 ppm": 0
+  },
+  "positive_quantile_range_counts": {
+    "1-6 ppm": 164,
+    "6-31.5 ppm": 194,
+    "31.5-65 ppm": 178,
+    "65-10000 ppm": 180
+  },
+  "above_threshold_count": 390,
+  "split_statistics": {
+    "train": {
+      "total_spectra": 1803,
+      "known": 516,
+      "zero": 11,
+      "positive": 505
+    },
+    "val": {
+      "total_spectra": 377,
+      "known": 103,
+      "zero": 3,
+      "positive": 100
+    },
+    "test": {
+      "total_spectra": 387,
+      "known": 114,
+      "zero": 3,
+      "positive": 111
+    }
+  },
+  "leakage_detected": false,
+  "supported_bin_support_by_range": {
+    "0 ppm": {
+      "train": 11,
+      "validation": 3
+    },
+    ">0-1 ppm": {
+      "train": 16,
+      "validation": 3
+    },
+    ">1-10 ppm": {
+      "train": 138,
+      "validation": 32
+    },
+    ">10-25 ppm": {
+      "train": 78,
+      "validation": 10
+    },
+    ">25-100 ppm": {
+      "train": 214,
+      "validation": 46
+    },
+    ">100-500 ppm": {
+      "train": 41,
+      "validation": 8
+    },
+    ">500-1000 ppm": {
+      "train": 7,
+      "validation": 1
+    },
+    ">1000-5000 ppm": {
+      "train": 5,
+      "validation": 0
+    },
+    ">5000 ppm": {
+      "train": 6,
+      "validation": 0
+    }
+  },
+  "candidate_supported_range": "1 ppm to 500 ppm",
+  "recommended_strategy": "C. Dedicated supported-range Cu regression + out-of-range warning",
+  "recommendation_reason": "Train/validation labels give adequate support (at least 10 train and 5 validation known labels per bin) only within the 1 ppm to 500 ppm range, but the overall concentration distribution has a long, sparse high-concentration tail (P99/median ratio 157.5) that the existing regression CNN failed to calibrate (weak/negative Pearson, moderate Spearman, regression-to-the-mean, and >90% of squared error from the top decile in both validation and test). A model restricted to the supported range with an explicit out-of-range warning is justified by this evidence; a single full-range regression is not.",
+  "old_cu_regression_diagnosis": {
+    "source": "atomic-spectrum-v2/reports/concentration/failure_analysis.md",
+    "checkpoint_examined": "atomic-spectrum-v2/models/z903_concentration_best.pt (not modified, not retrained)",
+    "validation_truth_range_ppm": [
+      0,
+      896
+    ],
+    "validation_prediction_range_ppm": [
+      2.357,
+      93.58
+    ],
+    "test_truth_range_ppm": [
+      0,
+      4893
+    ],
+    "test_prediction_range_ppm": [
+      0.6974,
+      122.3
+    ],
+    "validation_pearson": 0.1693,
+    "validation_spearman": 0.6169,
+    "test_pearson": -0.0881,
+    "test_spearman": 0.648,
+    "validation_top10pct_sse_share": 0.9612,
+    "validation_top5pct_sse_share": 0.9357,
+    "test_top10pct_sse_share": 0.9989,
+    "test_top5pct_sse_share": 0.9984,
+    "known_validation_labels": 103,
+    "known_test_labels": 114,
+    "diagnosis": "Extreme Cu concentrations dominate squared error (96-100% of validation SSE, 99.9% of test SSE from the top decile). Prediction ranges are far narrower than truth ranges (regression-to-the-mean). Pearson correlation is weak or negative while Spearman is moderate, indicating partial rank ordering without magnitude calibration. The prior report recommended deferring a full-range Cu regression model or redesigning it, citing sparse high-concentration labels and weak linear calibration as the primary observed issues; it did not attribute the failure to matrix shortcuts.",
+    "primary_associated_issue": "sparse high-concentration data combined with regression-to-the-mean"
+  },
+  "test_set_status": "NOT USED FOR MODEL PERFORMANCE OR MODEL SELECTION"
+}
