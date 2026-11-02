@@ -1,0 +1,161 @@
+{
+  "note": "Existing checkpoint evaluation; no retraining performed.",
+  "selected_checkpoint": {
+    "checkpoint": "reports\\pb_presence_absence\\pb_full_spectrum_best.pt",
+    "valid": true,
+    "best_epoch": 62,
+    "best_validation_loss": 0.274894810904553,
+    "splits": {
+      "val": {
+        "loss": 0.274894810904553,
+        "accuracy": 0.8853503184713376,
+        "threshold": 0.5,
+        "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+        "precision": 0.8181818181818182,
+        "recall_sensitivity": 0.9212598425196851,
+        "specificity": 0.8609625668449198,
+        "f1": 0.8666666666666667,
+        "roc_auc": 0.9543559728830687,
+        "confusion_matrix": {
+          "tn": 161,
+          "fp": 26,
+          "fn": 10,
+          "tp": 117
+        },
+        "tp": 117,
+        "tn": 161,
+        "fp": 26,
+        "fn": 10,
+        "known_samples": 314
+      },
+      "test": {
+        "loss": 0.3365955473855138,
+        "accuracy": 0.8660436137071651,
+        "threshold": 0.5,
+        "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+        "precision": 0.8296296296296296,
+        "recall_sensitivity": 0.8484848484848485,
+        "specificity": 0.8783068783068783,
+        "f1": 0.8389513108614232,
+        "roc_auc": 0.9355459355459357,
+        "confusion_matrix": {
+          "tn": 166,
+          "fp": 23,
+          "fn": 20,
+          "tp": 112
+        },
+        "tp": 112,
+        "tn": 166,
+        "fp": 23,
+        "fn": 20,
+        "known_samples": 321
+      }
+    }
+  },
+  "evaluated_candidates": [
+    {
+      "checkpoint": "reports\\pb_presence_absence\\pb_full_spectrum_best.pt",
+      "valid": true,
+      "best_epoch": 62,
+      "best_validation_loss": 0.274894810904553,
+      "splits": {
+        "val": {
+          "loss": 0.274894810904553,
+          "accuracy": 0.8853503184713376,
+          "threshold": 0.5,
+          "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+          "precision": 0.8181818181818182,
+          "recall_sensitivity": 0.9212598425196851,
+          "specificity": 0.8609625668449198,
+          "f1": 0.8666666666666667,
+          "roc_auc": 0.9543559728830687,
+          "confusion_matrix": {
+            "tn": 161,
+            "fp": 26,
+            "fn": 10,
+            "tp": 117
+          },
+          "tp": 117,
+          "tn": 161,
+          "fp": 26,
+          "fn": 10,
+          "known_samples": 314
+        },
+        "test": {
+          "loss": 0.3365955473855138,
+          "accuracy": 0.8660436137071651,
+          "threshold": 0.5,
+          "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+          "precision": 0.8296296296296296,
+          "recall_sensitivity": 0.8484848484848485,
+          "specificity": 0.8783068783068783,
+          "f1": 0.8389513108614232,
+          "roc_auc": 0.9355459355459357,
+          "confusion_matrix": {
+            "tn": 166,
+            "fp": 23,
+            "fn": 20,
+            "tp": 112
+          },
+          "tp": 112,
+          "tn": 166,
+          "fp": 23,
+          "fn": 20,
+          "known_samples": 321
+        }
+      }
+    },
+    {
+      "checkpoint": "reports\\pb_presence_absence\\run_20261102_085157\\pb_full_spectrum_best.pt",
+      "valid": true,
+      "best_epoch": 23,
+      "best_validation_loss": 0.277681730213059,
+      "splits": {
+        "val": {
+          "loss": 0.277681730213059,
+          "accuracy": 0.8821656050955414,
+          "threshold": 0.5,
+          "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+          "precision": 0.8260869565217391,
+          "recall_sensitivity": 0.8976377952755905,
+          "specificity": 0.8716577540106952,
+          "f1": 0.8603773584905661,
+          "roc_auc": 0.9542717588108973,
+          "confusion_matrix": {
+            "tn": 163,
+            "fp": 24,
+            "fn": 13,
+            "tp": 114
+          },
+          "tp": 114,
+          "tn": 163,
+          "fp": 24,
+          "fn": 13,
+          "known_samples": 314
+        },
+        "test": {
+          "loss": 0.30848129115116746,
+          "accuracy": 0.8909657320872274,
+          "threshold": 0.5,
+          "accuracy_formula": "(TP + TN) / (TP + TN + FP + FN)",
+          "precision": 0.8646616541353384,
+          "recall_sensitivity": 0.8712121212121212,
+          "specificity": 0.9047619047619048,
+          "f1": 0.8679245283018867,
+          "roc_auc": 0.9377104377104376,
+          "confusion_matrix": {
+            "tn": 171,
+            "fp": 18,
+            "fn": 17,
+            "tp": 115
+          },
+          "tp": 115,
+          "tn": 171,
+          "fp": 18,
+          "fn": 17,
+          "known_samples": 321
+        }
+      }
+    }
+  ]
+}
