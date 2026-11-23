@@ -1,0 +1,91 @@
+{
+  "overall": {
+    "total_spectra": 2567,
+    "known_fe_values": 2556,
+    "missing_fe_values": 11,
+    "minimum": 0.03,
+    "median": 8.530000000000001,
+    "mean": 8.147331768388106,
+    "percentile_95": 15.45,
+    "maximum": 63.9,
+    "zero_values": 0,
+    "positive_values": 2556,
+    "reference_column": "Fe2O3*",
+    "reported_unit": "wt% Fe2O3-equivalent",
+    "classification_feasible_at_zero": false
+  },
+  "splits": {
+    "train": {
+      "spectra": 1803,
+      "known": 1794,
+      "missing": 9,
+      "minimum": 0.03,
+      "median": 8.635000000000002,
+      "mean": 8.150624303233,
+      "percentile_95": 15.443499999999998,
+      "maximum": 63.9,
+      "zero": 0,
+      "positive": 1794,
+      "concentration_bins": {
+        "zero": 0,
+        "(0, 0.1]": 5,
+        "(0.1, 0.5]": 39,
+        "(0.5, 1]": 89,
+        "(1, 2]": 171,
+        "(2, 5]": 317,
+        "(5, 10]": 353,
+        "(10, 20]": 818,
+        "(20, 50]": 1,
+        ">50": 1
+      }
+    },
+    "val": {
+      "spectra": 377,
+      "known": 376,
+      "missing": 1,
+      "minimum": 0.12,
+      "median": 8.24,
+      "mean": 8.092234042553192,
+      "percentile_95": 15.379999999999999,
+      "maximum": 17.4,
+      "zero": 0,
+      "positive": 376,
+      "concentration_bins": {
+        "zero": 0,
+        "(0, 0.1]": 0,
+        "(0.1, 0.5]": 7,
+        "(0.5, 1]": 14,
+        "(1, 2]": 32,
+        "(2, 5]": 80,
+        "(5, 10]": 74,
+        "(10, 20]": 169,
+        "(20, 50]": 0,
+        ">50": 0
+      }
+    },
+    "test": {
+      "spectra": 387,
+      "known": 386,
+      "missing": 1,
+      "minimum": 0.1,
+      "median": 8.190000000000001,
+      "mean": 8.185699481865285,
+      "percentile_95": 15.51,
+      "maximum": 18.89,
+      "zero": 0,
+      "positive": 386,
+      "concentration_bins": {
+        "zero": 0,
+        "(0, 0.1]": 1,
+        "(0.1, 0.5]": 8,
+        "(0.5, 1]": 14,
+        "(1, 2]": 34,
+        "(2, 5]": 71,
+        "(5, 10]": 82,
+        "(10, 20]": 176,
+        "(20, 50]": 0,
+        ">50": 0
+      }
+    }
+  }
+}

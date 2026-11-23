@@ -1,0 +1,51 @@
+{
+  "task": "regression",
+  "target": "Fe2O3*",
+  "unit": "wt% Fe2O3-equivalent",
+  "selected_model": "cnn",
+  "selected_parameters": {
+    "architecture": "ConcentrationCNN",
+    "preprocess": "robust median/IQR",
+    "target_transform": "train-only log1p standardization"
+  },
+  "selected_validation_metrics": {
+    "split": "validation",
+    "model": "cnn",
+    "n": 376,
+    "mae": 1.0949401628582718,
+    "median_absolute_error": 0.8376865386962891,
+    "rmse": 1.523288045723411,
+    "r2": 0.9045277577538652,
+    "bias": -0.012238414779781,
+    "pearson_correlation": 0.9511449433253376,
+    "spearman_correlation": 0.9300075873991502
+  },
+  "selected_test_metrics": {
+    "split": "test",
+    "model": "cnn",
+    "n": 386,
+    "mae": 1.203206682239944,
+    "median_absolute_error": 0.906855583190918,
+    "rmse": 1.682342398216214,
+    "r2": 0.88251660223371,
+    "bias": -0.0026622092438176,
+    "pearson_correlation": 0.939530069115309,
+    "spearman_correlation": 0.931556495798222
+  },
+  "best_validation_model": "cnn",
+  "cnn_best_epoch": 21,
+  "cnn_epochs_completed": 51,
+  "seed": 20260816,
+  "maximum_epochs": 300,
+  "early_stopping_patience": 30,
+  "cnn_checkpoint": "D:\\PROJECT\\atomic-spectrum-cnn-copilot\\atomic-spectrum-cnn-copilot\\reports\\fe_analysis\\fe_cnn_best.pt",
+  "stable_enough_for_streamlit_integration": true,
+  "integrated_in_streamlit": true,
+  "validation_reference_range_wt_percent": [
+    0.12,
+    17.4
+  ],
+  "mae_relative_validation_test_difference": 0.09887893699967078,
+  "late_overfitting_observed": true,
+  "classification_confusion_matrix": null
+}

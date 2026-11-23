@@ -1,4 +1,4 @@
-"""LIBS Multi-Element Analysis Demo: integrates frozen MgO, Ag, and Cu models."""
+"""LIBS Multi-Element Analysis Demo with frozen detection models and estimates."""
 
 from __future__ import annotations
 
@@ -28,12 +28,17 @@ from src.cu_inference import (  # noqa: E402
     predict_cu_concentration,
 )
 from src.data import DEMO_DIR, load_demo, load_spectrum  # noqa: E402
+from src.fe_inference import (  # noqa: E402
+    FE_VALIDATION_RANGE_WT_PERCENT,
+    load_fe_checkpoint,
+    predict_fe_concentration,
+)
 from src.inference import load_checkpoint, predict  # noqa: E402
 from src.mgo_ridge_inference import load_pipeline, predict_mgo  # noqa: E402
 
 st.set_page_config(page_title="LIBS Multi-Element Analysis Demo", layout="wide")
 st.title("LIBS Multi-Element Analysis Demo")
-st.caption("Experimental MgO, Ag, and Cu identification and quantitative estimation")
+st.caption("Experimental MgO, Ag, Cu, and Fe estimates with the existing detection outputs")
 
 MODEL_ERRORS = (OSError, ValueError, RuntimeError, KeyError)
 
@@ -121,6 +126,30 @@ def render_cu_section(intensity, detections, detection_error) -> None:
         st.warning(HIGH_CONCENTRATION_NOTE)
 
 
+def render_fe_section(intensity) -> None:
+    with st.container(border=True):
+        st.subheader("Fe (as Fe2O3*)")
+        try:
+            model, checkpoint, device = load_fe_checkpoint()
+            estimate = predict_fe_concentration(intensity, model, checkpoint, device)
+        except MODEL_ERRORS as exc:
+            st.error(f"Fe quantitative estimate unavailable: {exc}")
+            return
+        st.metric("Experimental Fe estimate", f"{estimate:.2f} wt% Fe2O3-equivalent")
+        low, high = FE_VALIDATION_RANGE_WT_PERCENT
+        st.caption(
+            "Quantitative Fe2O3-equivalent estimate only; not a presence/absence classification "
+            "or a validated LIBS detection limit."
+        )
+        st.caption(
+            f"Validation reference range: {low:.2f}-{high:.2f} wt% Fe2O3-equivalent."
+        )
+        if estimate < low or estimate > high:
+            st.warning(
+                "This estimate is outside the validation-supported range and is an unsupported extrapolation."
+            )
+
+
 def main() -> None:
     st.header("Spectrum Input")
     demo_metadata = pd.read_csv(DEMO_DIR / "demo_ground_truth.csv")
@@ -145,19 +174,22 @@ def main() -> None:
     detections, detection_error = load_six_element_detections(intensity)
 
     st.header("Results")
-    mg_column, ag_column, cu_column = st.columns(3)
+    mg_column, ag_column, cu_column, fe_column = st.columns(4)
     with mg_column:
         render_mg_section(intensity, detections, detection_error)
     with ag_column:
         render_ag_section(intensity)
     with cu_column:
         render_cu_section(intensity, detections, detection_error)
+    with fe_column:
+        render_fe_section(intensity)
 
     st.header("Model Notes")
     st.markdown(
         "- MgO quantitative result is reported in wt%.\n"
         "- Ag concentration estimation is experimental and mainly supported at low concentrations.\n"
         "- Cu quantitative model was developed for a data-supported 1-500 ppm range.\n"
+        "- Fe is an experimental Fe2O3-equivalent regression estimate; it is not a detection result.\n"
         "- These models are research prototypes and are not certified analytical measurements."
     )
 
